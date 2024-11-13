@@ -1,0 +1,52 @@
+/* main_style.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin: 0;
+}
+
+.search-container {
+    -fx-border-width: 1px; /* 두께 */
+    -fx-border-style: solid; /* 스타일 */
+    -fx-border-color: #1db954; /* 색상 */
+    -fx-background-color: #282828;
+    -fx-padding: 10;
+}
+
+.slider {
+    -fx-background-color: transparent; /* 기본 배경을 투명으로 설정 */
+}
+
+.slider .track {
+    -fx-background-color: #2A2A2A; /* 기본 트랙 색상 */
+    -fx-background-insets: 0; /* 트랙 안쪽 여백 */
+}
+
+.slider .track:horizontal {
+    -fx-background-color: #3D3D3D; /* 진행 상태 색상 */
+}
+
+.search-textField {
+    -fx-border-color: transparent;
+    -fx-background-color: #282828;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 10;
+    -fx-border-radius: 25;
+}
+
+.search-button {
+    -fx-background-color: #1db954;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 10 15;
+    -fx-border-radius: 25;
+    -fx-cursor: hand;
+}
+
+.search-button:hover {
+    -fx-background-color: #1aa34a;
+}

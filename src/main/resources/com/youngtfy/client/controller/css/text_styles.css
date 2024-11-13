@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'MyCustomFont';
+    src: url('../font/NotoSansKR-Regular.ttf') format('truetype');
+}
+
+.text {
+    -fx-font-family: 'MyCustomFont';
+}
