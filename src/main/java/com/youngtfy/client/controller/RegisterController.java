@@ -173,7 +173,7 @@ public class RegisterController {
             // RegisterController의 인스턴스를 가져와 stage 설정
             LoginController loginController = loader.getController();
             loginController.setStage((Stage) backBtn.getScene().getWindow());
-            loginController.setCb(this.loginController.cb);
+            loginController.setCb(this.cb);
 
             // 기존 씬을 새로운 뷰로 교체
             Scene scene = new Scene(root);

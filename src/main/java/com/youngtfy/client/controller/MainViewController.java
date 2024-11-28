@@ -2,22 +2,13 @@ package com.youngtfy.client.controller;
 
 import com.youngtfy.client.common.ClientBase;
 
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import com.youngtfy.common.DataObject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -26,9 +17,6 @@ import javafx.util.Duration;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class MainViewController {
     ClientBase cb = null;
@@ -60,7 +48,7 @@ public class MainViewController {
     private Label trackNameLabel;
 
     LoginController loginController;
-    boolean btnFlag = true;
+    boolean chkLast = true;
 
     String email;
 
@@ -74,6 +62,8 @@ public class MainViewController {
 
     public void setCb(ClientBase cb){
         this.cb = cb;
+        System.out.println(1);
+        System.out.println(this.cb);
         this.in = cb.getIn();
         this.out = cb.getOut();
     }
@@ -84,25 +74,35 @@ public class MainViewController {
         initializePlayer(chkLast);
     }
 
+    public void setGUI(){
+        chkLast = test();
+        initializePlayer(chkLast);
+    }
+
     @FXML
     public void initialize() {
+        searchBtn.setOnAction(e -> handleSearch());
         stopBtn.setVisible(false);
     }
 
     public void initializePlayer(boolean chkLast) {
         playBtn.setOnAction(event -> {
-            mediaPlayer.play();
-            playBtn.setVisible(false);
-            stopBtn.setVisible(true);
-                });
+            System.out.println(2);
+            if (mediaPlayer == null){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("노래가 엄서요!");
+                alert.showAndWait();
+            }
+            else{
+                mediaPlayer.play();
+                playBtn.setVisible(false);
+                stopBtn.setVisible(true);
+            }});
         stopBtn.setOnAction(event -> {
             mediaPlayer.pause();
             playBtn.setVisible(true);
             stopBtn.setVisible(false);
         });
-        searchBtn.setOnAction(e -> handleSearch());
-
-
 
         if(chkLast){
             volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -113,6 +113,7 @@ public class MainViewController {
 
             return;
         }
+
 
         mediaPlayer.setVolume(volumeSlider.getValue());
 
@@ -136,6 +137,35 @@ public class MainViewController {
         });
     }
 
+    @FXML
+    private void handleSearch() {
+        try {
+            // FXML 파일 로드
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("search-view.fxml"));
+            Parent root = loader.load();
+
+            // SearchController의 인스턴스를 가져와 stage 설정
+            SearchController searchController = loader.getController();
+            searchController.setStage((Stage) searchBtn.getScene().getWindow());
+
+            searchController.setCb(cb);
+            System.out.println(2);
+            System.out.println(this.cb);
+            searchController.setMainViewController(this);
+
+            // 기존 씬을 새로운 뷰로 교체
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+            initializePlayer(chkLast);
+
+        } catch (Exception e) {
+            e.printStackTrace(); // 오류 발생 시 스택 트레이스를 출력
+        }
+    }
+
+    /*
     private void handleSearch(){
         URL resourceUrl = getClass().getResource("image/album_now.jpg");
         double currentValue = volumeSlider.getValue();
@@ -224,6 +254,7 @@ public class MainViewController {
             }
         });
     }
+     */
 
     private void updateSliderTrackColor(int volume) {
         double percentage = volume; // 0.0 ~ 1.0으로 변환
