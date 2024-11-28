@@ -50,6 +50,8 @@ public class LoginController {
         registerBtn.setOnAction(event -> handleRegister());
         submitBtn.setOnAction(event -> handleLogin());
 
+
+
         initializeAnimation();
     }
 
